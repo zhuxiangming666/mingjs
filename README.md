@@ -1,0 +1,2 @@
+# mingjs
+study javascript code
