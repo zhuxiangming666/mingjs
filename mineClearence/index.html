@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .td{
+        .td {
             width: 20px;
             height: 20px;
             border: #000 2px solid;
             background-color: #aaa;
         }
-        .onclickbtn{
+
+        .onclickbtn {
             width: 20px;
             height: 20px;
             border: #000 1px solid;
             background-color: #fff;
         }
-        .Minebtnclick{
+
+        .Minebtnclick {
             width: 20px;
             height: 20px;
             border: #000 1px solid;
@@ -26,218 +29,228 @@
         }
     </style>
 </head>
+
 <body>
-        <div>
-            <button id = "btn1">简单</button>
-            <button id = "btn2">普通</button>
-            <button id = "btn3">困难</button>
-            <button id = "btn4">重新开始</button>
-        </div>
-        <table cellpadding="0" cellspacing="0">
-        </table>
-        <h1 style="display: none;">还有<span id="mineNum"></span>个雷</h1>
+    <div>
+        <button id="btn1">简单</button>
+        <button id="btn2">普通</button>
+        <button id="btn3">困难</button>
+        <button id="btn4">重新开始</button>
+    </div>
+    <table cellpadding="0" cellspacing="0">
+    </table>
+    <h1 style="display: none;">还有<span id="mineNum"></span>个雷</h1>
 </body>
-    <script>
+<script>
 
-                        var findMine = {
-                        line : 0 ,         //列
-                        row :0 ,        //行
-                        mines: 0,       //雷-标志雷
-                        flag : 0,   //没有点击的格字数
-                        allmines: 0,    //总雷数
-                        //获取元素
-                        getElement : function (){
-                                this.table = document.getElementsByTagName("table")[0];       
-                                this.btn1 = document.getElementById("btn1");
-                                this.btn2 = document.getElementById("btn2");
-                                this.btn3 = document.getElementById("btn3");
-                                this.btn4 = document.getElementById("btn4");
-                        },
-                        
-                        //选择模式绑定事件
-                        clickThing : function (){
-                             this.btn1.onclick = function (){
-                                findMine.table.innerHTML = null;
-                                findMine.createMap(10,10);
-                                findMine.createMine(10);
-                                findMine.playGame();
-                                findMine.writeMineNums();
-                                findMine.tips();
-                            };
-                                this.btn2.onclick = function (){
-                                findMine.table.innerHTML = null;
-                                findMine.createMap(16,16);
-                                findMine.createMine(40);
-                                findMine.playGame();
-                                findMine.writeMineNums();
-                                findMine.tips();
-                            };
-                            this.btn3.onclick = function (){
-                                findMine.table.innerHTML = null;
-                                findMine.createMap(20,20);
-                                findMine.createMine(50);
-                                findMine.playGame();
-                                findMine.writeMineNums();
-                                findMine.tips();
-                            };
-                            this.btn4.onclick = function (){
-                                if(findMine. line == 10){
-                                    btn1.onclick();
-                                }else if (findMine.onclick == 16){
-                                   btn2.onclick(); 
-                                }else{
-                                    btn3.onclick();
-                                } 
-                            } 
-                        },
+    var findMine = {
+        line: 0,         //列
+        row: 0,        //行
+        mines: 0,       //雷-标志雷
+        flag: 0,   //没有点击的格字数
+        allmines: 0,    //总雷数
+        //获取元素
+        getElement: function () {
+            this.table = document.getElementsByTagName("table")[0];
+            this.btn1 = document.getElementById("btn1");
+            this.btn2 = document.getElementById("btn2");
+            this.btn3 = document.getElementById("btn3");
+            this.btn4 = document.getElementById("btn4");
+        },
 
-                        //初始化游戏
-                        init  : function initGame(){
-                            this.getElement();
-                            this.clickThing();
-                        },
+        //选择模式绑定事件
+        clickThing: function () {
+            this.btn1.onclick = function () {
+                findMine.table.innerHTML = null;
+                findMine.createMap(10, 10);
+                findMine.createMine(10);
+                findMine.playGame();
+                findMine.writeMineNums();
+                findMine.tips();
+            };
+            this.btn2.onclick = function () {
+                findMine.table.innerHTML = null;
+                findMine.createMap(16, 16);
+                findMine.createMine(40);
+                findMine.playGame();
+                findMine.writeMineNums();
+                findMine.tips();
+            };
+            this.btn3.onclick = function () {
+                findMine.table.innerHTML = null;
+                findMine.createMap(20, 20);
+                findMine.createMine(50);
+                findMine.playGame();
+                findMine.writeMineNums();
+                findMine.tips();
+            };
+            this.btn4.onclick = function () {
+                if (findMine.line == 10) {
+                    btn1.onclick();
+                } else if (findMine.onclick == 16) {
+                    btn2.onclick();
+                } else {
+                    btn3.onclick();
+                }
+            }
+        },
 
-                        //生成画布    
-                        createMap : function createMap(row,line){
-                            this.row = row;
-                            this. line = line;
-                            this.flag = row*line;
-                            for(var i = 0;  i<row;i++){
-                                    var tr = document.createElement('tr');
-                                    for(var j = 0; j <line;j++ ){
-                                        var td = document.createElement('td');
-                                        td.setAttribute('id',i+''+j+"td");
-                                        td.setAttribute('class','td')
-                                        tr.appendChild(td);
+        //初始化游戏
+        init: function initGame() {
+            this.getElement();
+            this.clickThing();
+        },
+
+        //生成画布    
+        createMap: function createMap(row, line) {
+            this.row = row;
+            this.line = line;
+            this.flag = row * line;
+            for (var i = 0; i < row; i++) {
+                var tr = document.createElement('tr');
+                for (var j = 0; j < line; j++) {
+                    var td = document.createElement('td');
+                    td.setAttribute('id', i + '' + j + "td");
+                    td.setAttribute('class', 'td')
+                    tr.appendChild(td);
+                }
+                this.table.appendChild(tr);
+                this.table.style.display = "block";
+            }
+        },
+
+        //生成雷
+        createMine: function (mine) {
+            this.allmines = mine;
+            this.mines = mine;
+
+            this.mytds = document.getElementsByTagName('td');
+            var mineArr = [];
+            for (var i = 0; i < mine;) {
+                var num = Math.round(Math.random() * this.line * this.row);
+                if (mineArr.indexOf(num) == -1) {
+                    mineArr.push(num);
+                    i++;
+                    console.log(num)
+                }
+            }
+            for (var j = 0; j < mineArr.length; j++) {
+                //console.log(this.mytds[mineArr[j]]);
+                this.mytds[mineArr[j]].setAttribute("isMine", true);
+            }
+        },
+
+        //写入旁边雷数
+        writeMineNums: function () {
+            function countMine(i) {
+                var arr1 = [];
+                var num = 0;
+                if (i % findMine.line == 0) { // 判断左边一束的雷数量
+                    arr1 = [i - findMine.line, i - findMine.line + 1, i + 1, i + findMine.line, i + findMine.line + 1]
+                } else if ((i + 1) % findMine.line == 0) { // 判断右边的雷的个数
+                    arr1 = [i + findMine.line - 1, i + findMine.line, i - 1, i - findMine.line, i - findMine.line - 1];
+                } else {
+                    arr1 = [i - findMine.line + 1, i - findMine.line - 1, i - findMine.line, i + 1, i - 1, i + findMine.line, i + findMine.line + 1, i + findMine.line - 1];
+                }
+                for (var j = 0; j < arr1.length; j++) {
+                    if (arr1[j] >= 0 && arr1[j] < findMine.row * findMine.line && findMine.mytds[arr1[j]].getAttribute('isMine')) {
+                        num++;
+                    }
+                }
+                return num;
+            };
+            for (var i = 0; i < this.mytds.length; i++) {
+                if (!this.mytds[i].getAttribute("isMine")) {
+                    var num = countMine(i);
+                    if (num != 0)
+                        this.mytds[i].setAttribute('MineNum', num);
+                }
+            }
+        },
+        //玩扫雷
+        playGame: function () {
+            for (var i = 0; i < this.mytds.length; i++) {
+                (function (i) {
+                    findMine.mytds[i].onclick = function () {
+                        function click(i) {
+                            if (i > -1 && i < findMine.row * findMine.line && findMine.mytds[i].innerHTML == "X") { }
+                            else if (i > -1 && i < findMine.row * findMine.line && !findMine.mytds[i].getAttribute("clicked")) {
+                                if (findMine.mytds[i].getAttribute("isMine")) {
+                                    findMine.mytds[i].setAttribute('class', "Minebtnclick");
+                                    findMine.mytds[i].setAttribute('clicked', true);
+                                    findMine.mytds[i].innerHTML = "炸";
+                                    alert("小朋友，你也配玩扫雷!");
+                                } else if (findMine.mytds[i].getAttribute("Minenum")) { //获取旁边的雷数量
+                                    findMine.mytds[i].setAttribute('class', "onclickbtn");
+                                    findMine.mytds[i].setAttribute('clicked', true);
+                                    findMine.mytds[i].innerHTML = findMine.mytds[i].getAttribute("Minenum");
+                                } else {
+                                    findMine.mytds[i].setAttribute('clicked', true);
+                                    findMine.mytds[i].setAttribute('class', "onclickbtn");
+                                    if (i % findMine.line == 0) {
+                                        click(i + 1);
+                                        click(i - findMine.line);
+                                        click(i + findMine.line);
+                                    } else if ((i + 1) % findMine.line == 0) {
+                                        click(i - 1);
+                                        click(i - findMine.line);
+                                        click(i + findMine.line);
+                                    } else {
+                                        click(i - 1);
+                                        click(i + 1);
+                                        click(i - findMine.line);
+                                        click(i + findMine.line);
                                     }
-                                    this.table.appendChild(tr);
-                                    this.table.style.display = "block";
-                            }
-                        },
-                        
-                        //生成雷
-                        createMine: function (mine) {
-                            this.allmines = mine;
-                            this.mines = mine;
-                            
-                            this.mytds = document.getElementsByTagName('td');
-                            var mineArr = [];
-                            for (var i = 0; i < mine;){
-                                var num = Math.round(Math.random()*this.line*this.row);
-                                if(mineArr.indexOf(num) ==-1){
-                                    mineArr.push(num);
-                                    i++;
-                                    console.log(num)
                                 }
-                            }
-                            for (var j = 0;j<mineArr.length;j++){
-                                //console.log(this.mytds[mineArr[j]]);
-                                this.mytds[mineArr[j]].setAttribute("isMine",true);
-                            }
-                        },
-                        
-                        //写入旁边雷数
-                        writeMineNums : function(){
-                                function countMine (i){
-                                    var arr1= [];
-                                    var num = 0;
-                                    if( i%findMine.line == 0){
-                                        arr1 = [i - findMine.line,i-findMine.line+1,i+1,i+findMine.line,i+findMine.line+1]
-                                    }else if((i+1)%findMine.line== 0){
-                                        arr1 = [i+findMine.line-1,i+findMine.line,i-1,i-findMine.line,i-findMine.line-1];
-                                    }else{
-                                        arr1= [i-findMine.line+1,i-findMine.line-1,i-findMine.line,i+1,i-1,i+findMine.line,i+findMine.line+1,i+findMine.line-1];
-                                    }
-                                    for(var j=0;j<arr1.length;j++){
-                                            if(arr1[j]>=0 && arr1[j] < findMine.row*findMine.line &&findMine.mytds[arr1[j]].getAttribute('isMine')){
-                                                    num++;
-                                            }
-                                    }
-                                    return num;
-                                };
-                            for(var i = 0;i <this.mytds.length;i++ ){
-                                if(!this.mytds[i].getAttribute("isMine")){
-                                     var num = countMine(i);
-                                     if(num !=0)
-                                        this.mytds[i].setAttribute('MineNum',num);
-                                }
-                            }
-                        },
-                        //玩扫雷
-                        playGame : function (){
-                                for (var i = 0;i<this.mytds.length;i++){
-                                   (function(i){findMine.mytds[i].onclick = function (){
-                                            function click(i){
-                                                if(i>-1 && i  < findMine.row*findMine.line &&findMine.mytds[i].innerHTML == "X"){}
-                                                else if( i>-1 && i  < findMine.row*findMine.line &&!findMine.mytds[i].getAttribute("clicked")){
-                                                if(findMine.mytds[i].getAttribute("isMine")){
-                                                    findMine.mytds[i].setAttribute('class',"Minebtnclick");
-                                                    findMine.mytds[i].setAttribute('clicked',true);
-                                                    findMine.mytds[i].innerHTML = "炸";
-                                                    alert("小朋友，你也配玩扫雷!");
-                                                    findMine.btn4.onclick();
-                                                }else if(findMine.mytds[i].getAttribute("Minenum")){
-                                                    findMine.mytds[i].setAttribute('class',"onclickbtn");
-                                                    findMine.mytds[i].setAttribute('clicked',true);
-                                                    findMine.mytds[i].innerHTML = findMine.mytds[i].getAttribute("Minenum");
-                                                }else{
-                                                    findMine.mytds[i].setAttribute('clicked',true);
-                                                    findMine.mytds[i].setAttribute('class',"onclickbtn");
-                                                    if(i%findMine.line == 0){
-                                                        click(i+1);
-                                                        click(i-findMine.line);
-                                                        click(i+findMine.line);
-                                                    }else if((i+1)%findMine.line == 0){
-                                                        click(i-1);
-                                                        click(i-findMine.line);
-                                                        click(i+findMine.line);
-                                                    }else{
-                                                        click(i-1);
-                                                        click(i+1);
-                                                        click(i-findMine.line);
-                                                        click(i+findMine.line);
-                                                    }
-                                               }
-                                               findMine.flag--;
-                                                }
-                                            }
-                                            click(i);
-                                            findMine.tips();
-                                            findMine.isaccomplish();
-                                    }}(i));
-                                    (function(i){findMine.mytds[i].oncontextmenu= function () {
-                                        if(findMine.mytds[i].getAttribute("clicked")){}
-                                        else{if(findMine.mines <= 0){
-                                            alert("你亚比不看提示吗? 雷都找出来了，你信吗?<v _v>")
-                                        }else{
-                                            if(findMine.mytds[i].innerHTML =="X"){
-                                            findMine.mytds[i].innerHTML = "";
-                                            findMine.mines ++;
-                                        }else{
-                                            findMine.mytds[i].innerHTML ="X";
-                                            findMine.mines --;
-                                        }
-                                    }
-                                    }
-                                    findMine.tips();
-                                        return false;
-                                    }}(i));
-                                }
-                        },
-                        //雷的提示信息
-                        tips:function(){
-                            var h1 = document.getElementsByTagName("h1")[0];
-                            h1.style.display = "block"; 
-                            var span =document.getElementById("mineNum");
-                                span.innerHTML = ""+findMine.mines;   
-                        },
-                        //判断是否完成
-                        isaccomplish:function (){
-                            if(this.flag == this.allmines && this.allmines !=0){
-                                alert("小伙子，我看你骨骼惊奇........")
+                                findMine.flag--;
                             }
                         }
-                    };
-                    findMine.init();
-    </script>
+                        click(i);
+                        findMine.tips();
+                        findMine.isaccomplish();
+                    }
+                }(i));
+                (function (i) {
+                    findMine.mytds[i].oncontextmenu = function () {
+                        if (findMine.mytds[i].getAttribute("clicked")) { }
+                        // else if(findMine.mytds[i].getAttribute("clicked").innerHTML==="X"){//取消雷的标致
+                        //     findMine.mytds[i].getAttribute("clicked").innerHTML = '';
+
+                        // }
+                        else {
+                            if (findMine.mines <= 0 && findMine.mytds[i].innerHTML == "X") {
+                                alert("你亚比不看提示吗? 雷都找出来了，你信吗?<v _v>")
+                            } else {
+                                if (findMine.mytds[i].innerHTML == "X") {
+                                    findMine.mytds[i].innerHTML = "";
+                                    findMine.mines++;
+                                } else {
+                                    findMine.mytds[i].innerHTML = "X";
+                                    findMine.mines--;
+                                }
+                            }
+                        }
+                        findMine.tips();
+                        return false;
+                    }
+                }(i));
+            }
+        },
+        //雷的提示信息
+        tips: function () {
+            var h1 = document.getElementsByTagName("h1")[0];
+            h1.style.display = "block";
+            var span = document.getElementById("mineNum");
+            span.innerHTML = "" + findMine.mines;
+        },
+        //判断是否完成
+        isaccomplish: function () {
+            if (this.flag == this.allmines && this.allmines != 0) {
+                alert("小伙子，我看你骨骼惊奇........")
+            }
+        }
+    };
+    findMine.init();
+</script>
+
 </html>
